@@ -1,12 +1,12 @@
 package net.sparkshardmc.monstersvsgov;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.resources.ResourceLocation;
+import net.sparkshardmc.monstersvsgov.item.ModItems; // Added this
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,12 +20,15 @@ public class MonstersVsGov implements ModInitializer {
     public void onInitialize() {
         LOGGER.info("§8[SYSTEM] net.sparkshardmc.java core loading...");
 
+        // This line is CRITICAL. It runs the code that registers your Dagger.
+        ModItems.registerModItems();
+
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerPlayer player = handler.getPlayer();
             CompoundTag data = player.getPersistentData();
 
             if (!data.contains("FactionID")) {
-                data.putInt("FactionID", 0);
+                data.putInt("FactionID", 0); // 0 = Neutral, 1 = Monster, 2 = Gov
                 LOGGER.info("§e[!] Initializing new identity for: " + player.getName().getString());
             }
         });
