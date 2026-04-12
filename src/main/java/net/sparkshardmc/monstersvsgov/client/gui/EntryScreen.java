@@ -1,9 +1,13 @@
 package net.sparkshardmc.monstersvsgov.client.gui;
 
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.client.Minecraft;
+import net.sparkshardmc.monstersvsgov.MonstersVsGov;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,6 +126,9 @@ public class EntryScreen extends Screen {
     }
 
     private void finalizeSelection() {
+        FriendlyByteBuf buf = PacketByteBufs.create();
+        buf.writeInt(this.selectedFaction);
+        ClientPlayNetworking.send(MonstersVsGov.FACTION_PACKET_ID, buf);
         this.minecraft.setScreen(null);
-    }
+    } 
 }
