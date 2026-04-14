@@ -6,7 +6,8 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.resources.ResourceLocation;
-import net.sparkshardmc.monstersvsgov.item.ModItems; // Added this
+import net.sparkshardmc.monstersvsgov.item.ModItems;
+import net.sparkshardmc.monstersvsgov.recipe.ModRecipes; // Import recipes
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,8 +21,11 @@ public class MonstersVsGov implements ModInitializer {
     public void onInitialize() {
         LOGGER.info("§8[SYSTEM] net.sparkshardmc.java core loading...");
 
-        // This line is CRITICAL. It runs the code that registers your Dagger.
+        // Register Items
         ModItems.registerModItems();
+
+        // Register Custom Recipes (The 3-Gold Stack logic)
+        ModRecipes.register();
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerPlayer player = handler.getPlayer();
