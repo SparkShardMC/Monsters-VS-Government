@@ -3,11 +3,12 @@
   "pattern": [
     "III",
     "ISI",
-    "  G"
+    "D G"
   ],
   "key": {
     "I": { "item": "minecraft:iron_ingot" },
     "S": { "item": "monstersvsgov:spirit_blood" },
+    "D": { "item": "monstersvsgov:decayed_dagger" },
     "G": { "item": "minecraft:gold_ingot" }
   },
   "result": {
