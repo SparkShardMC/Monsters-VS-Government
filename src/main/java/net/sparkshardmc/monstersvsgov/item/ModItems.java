@@ -13,9 +13,13 @@ public class ModItems {
     public static final Item DECAYED_DAGGER = registerItem("decayed_dagger", 
         new DecayedDaggerItem(Tiers.STONE, 3, -2.0f, new Item.Properties()));
 
-    // The Upgraded Weapon (5 Base Damage + Blindness Chance)
+    // The Upgraded Weapon (5 Base Damage + 10% Blindness Chance)
     public static final Item REPAIRED_DAGGER = registerItem("repaired_dagger", 
         new RepairedDaggerItem(Tiers.IRON, 5, -2.0f, new Item.Properties()));
+
+    // The Universal Upgrade Material
+    public static final Item SPIRIT_BLOOD = registerItem("spirit_blood", 
+        new Item(new Item.Properties()));
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(BuiltInRegistries.ITEM, 
