@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "ISI",
+    "GGG"
+  ],
+  "key": {
+    "I": { "item": "minecraft:iron_ingot" },
+    "S": { "item": "monstersvsgov:spirit_blood" },
+    "G": { "item": "minecraft:gold_ingot" }
+  },
+  "result": {
+    "item": "monstersvsgov:repaired_dagger",
+    "count": 1
+  }
+}
