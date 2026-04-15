@@ -7,7 +7,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.sparkshardmc.monstersvsgov.MonstersVsGov;
 
 public class ModRecipes {
-    // Standard serializer field
     public static final RecipeSerializer<DaggerRepairRecipe> DAGGER_REPAIR_SERIALIZER = new DaggerRepairRecipe.Serializer();
 
     public static void register() {
