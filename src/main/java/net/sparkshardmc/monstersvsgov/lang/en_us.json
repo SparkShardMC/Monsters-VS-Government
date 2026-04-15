@@ -1,5 +1,6 @@
 {
+  "item.monstersvsgov.spirit_blood": "Spirit Blood",
   "item.monstersvsgov.decayed_dagger": "Decayed Dagger",
-  "item.monstersvsgov.repaired_dagger": "Repaired Dagger"
-  "item.monstersvsgov.spirit_blood": "Spirit Blood"
+  "item.monstersvsgov.repaired_dagger": "Repaired Dagger",
+  "item.monstersvsgov.repaired_dagger.tooltip": "§7Infused with spirits. Has a chance to blind."
 }
