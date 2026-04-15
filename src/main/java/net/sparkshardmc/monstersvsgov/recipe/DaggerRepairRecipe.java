@@ -6,6 +6,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.Level;
+import net.minecraft.core.HolderLookup;
 
 public class DaggerRepairRecipe extends ShapedRecipe {
     public DaggerRepairRecipe(ShapedRecipe compose) {
@@ -16,9 +17,9 @@ public class DaggerRepairRecipe extends ShapedRecipe {
 
     @Override
     public boolean matches(CraftingContainer container, Level level) {
-        // Standard pattern check first
+        // First check the basic shape/items
         if (super.matches(container, level)) {
-            // Check slot 8 (Bottom-Right) for exactly 3 Gold
+            // Logic for the Ritual: The bottom-right slot (8) MUST be a stack of exactly 3 Gold
             ItemStack goldSlot = container.getItem(8);
             return goldSlot.is(Items.GOLD_INGOT) && goldSlot.getCount() == 3;
         }
@@ -30,7 +31,6 @@ public class DaggerRepairRecipe extends ShapedRecipe {
         return ModRecipes.DAGGER_REPAIR_SERIALIZER;
     }
 
-    // This handles reading the JSON file into the Java object
     public static class Serializer extends ShapedRecipe.Serializer {
         @Override
         public DaggerRepairRecipe fromJson(net.minecraft.resources.ResourceLocation id, com.google.gson.JsonObject json) {
