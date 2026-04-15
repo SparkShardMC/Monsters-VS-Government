@@ -1,5 +1,6 @@
 {
   "type": "monstersvsgov:dagger_repair",
+  "category": "equipment",
   "pattern": [
     "III",
     "ISI",
@@ -12,6 +13,7 @@
     "G": { "item": "minecraft:gold_ingot" }
   },
   "result": {
-    "item": "monstersvsgov:repaired_dagger"
+    "item": "monstersvsgov:repaired_dagger",
+    "count": 1
   }
 }
