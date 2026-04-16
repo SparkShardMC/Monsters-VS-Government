@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "monstersvsgov",
+  "version": "1.0.0",
+  "name": "Monsters Vs Government",
+  "description": "Choose your side. Survive or die.",
+  "authors": [ "SparkShardMC" ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/monstersvsgov/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [ "net.sparkshardmc.monstersvsgov.MonstersVsGov" ],
+    "client": [ "net.sparkshardmc.monstersvsgov.client.MonstersVsGovClient" ]
+  },
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "minecraft": "26.1.2",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}
