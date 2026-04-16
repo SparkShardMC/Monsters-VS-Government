@@ -1,65 +1,75 @@
 package net.sparkshardmc.monstersvsgov;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.sparkshardmc.monstersvsgov.item.ModItems;
 import net.sparkshardmc.monstersvsgov.recipe.ModRecipes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MonstersVsGov implements ModInitializer {
+
     public static final String MOD_ID = "monstersvsgov";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static final ResourceLocation FACTION_PACKET_ID = new ResourceLocation(MOD_ID, "faction_select");
 
     @Override
     public void onInitialize() {
-        LOGGER.info("§b[MvG] Loading Monsters Vs Government for 26.1.2...");
+        LOGGER.info("§8[SYSTEM] net.sparkshardmc.java core loading for 26.1.2...");
 
+        // Make sure our items and recipes actually exist in the registry
         ModItems.registerModItems();
         ModRecipes.register();
 
-        // 1. Register the Payload Type (Required in 26.1.2)
-        PayloadTypeRegistry.serverboundPlay().register(FactionPayload.ID, FactionPayload.CODEC);
-
-        // 2. Handle Player Join
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-            var player = handler.getPlayer();
-            if (!player.getPersistentData().contains("FactionID")) {
-                player.getPersistentData().putInt("FactionID", 0); 
-                LOGGER.info("§e[!] New identity assigned to: " + player.getName().getString());
+            ServerPlayer player = handler.getPlayer();
+            CompoundTag data = player.getPersistentData();
+
+            if (!data.contains("FactionID")) {
+                data.putInt("FactionID", 0);
             }
+            
+            LOGGER.info("§fSyncing data for: " + player.getName().getString() + " | Faction: " + data.getInt("FactionID"));
         });
 
-        // 3. Register Global Receiver using the new Payload system
-        ServerPlayNetworking.registerGlobalReceiver(FactionPayload.ID, (payload, context) -> {
-            context.server().execute(() -> {
-                context.player().getPersistentData().putInt("FactionID", payload.factionId());
-                LOGGER.info("§a[MvG] " + context.player().getName().getString() + " joined Faction: " + payload.factionId());
+        ServerPlayNetworking.registerGlobalReceiver(FACTION_PACKET_ID, (server, player, handler, buf, responseSender) -> {
+            int factionId = buf.readInt();
+            server.execute(() -> {
+                player.getPersistentData().putInt("FactionID", factionId);
+                
+                if (factionId == 1) {
+                    giveMonsterStarterGear(player);
+                } else if (factionId == 2) {
+                    giveGovStarterGear(player);
+                }
+
+                LOGGER.info("§a[SUCCESS] §f" + player.getName().getString() + " is now assigned to Faction " + factionId);
             });
         });
     }
 
-    /**
-     * New Requirement for 26.1.2: A Payload Record
-     * This defines what data is being sent (the int) and how to read/write it.
-     */
-    public record FactionPayload(int factionId) implements CustomPacketPayload {
-        public static final Id<FactionPayload> ID = new Id<>(new ResourceLocation(MOD_ID, "faction_select"));
-        public static final StreamCodec<RegistryFriendlyByteBuf, FactionPayload> CODEC = StreamCodec.composite(
-                StreamCodec.unit(0), // Placeholder if needed
-                p -> p.factionId,
-                FactionPayload::new
-        );
+    private void giveMonsterStarterGear(ServerPlayer player) {
+        // Monsters get the Decayed Dagger and some Spirit Blood to start
+        player.getInventory().add(new ItemStack(ModItems.DECAYED_DAGGER));
+        player.getInventory().add(new ItemStack(ModItems.SPIRIT_BLOOD, 2));
+        
+        // Bonus: Night Vision or something "monstrous"
+        player.getInventory().add(new ItemStack(Items.ROTTEN_FLESH, 16));
+    }
 
-        @Override
-        public Id<? extends CustomPacketPayload> type() {
-            return ID;
-        }
+    private void giveGovStarterGear(ServerPlayer player) {
+        // Government gets standard-issue Iron gear
+        player.getInventory().add(new ItemStack(Items.IRON_SWORD));
+        player.getInventory().add(new ItemStack(Items.IRON_CHESTPLATE));
+        player.getInventory().add(new ItemStack(Items.COOKED_BEEF, 16));
+        
+        // A shield for "protection"
+        player.getInventory().add(new ItemStack(Items.SHIELD));
     }
 }
