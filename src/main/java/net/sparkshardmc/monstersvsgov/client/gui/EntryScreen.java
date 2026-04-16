@@ -9,7 +9,6 @@ import net.sparkshardmc.monstersvsgov.MonstersVsGov;
 
 public class EntryScreen extends Screen {
     public EntryScreen() {
-        // This sets the window title for accessibility/narrators
         super(Component.literal("Choose Your Identity"));
     }
 
@@ -19,14 +18,15 @@ public class EntryScreen extends Screen {
         int x = this.width / 2 - buttonWidth / 2;
         int y = this.height / 2 - 40;
 
-        // Button 1: JOIN MONSTERS (ID 1)
+        // Button 1: JOIN MONSTERS (Faction ID 1)
+        // This triggers giveMonsterStarterGear on the server
         this.addRenderableWidget(Button.builder(Component.literal("Join Monsters"), (button) -> {
-            // Sends the custom payload we defined in MonstersVsGov
             ClientPlayNetworking.send(new MonstersVsGov.FactionPayload(1));
             this.onClose();
         }).bounds(x, y, buttonWidth, 20).build());
 
-        // Button 2: JOIN GOVERNMENT (ID 2)
+        // Button 2: JOIN GOVERNMENT (Faction ID 2)
+        // This triggers giveGovStarterGear on the server
         this.addRenderableWidget(Button.builder(Component.literal("Join Government"), (button) -> {
             ClientPlayNetworking.send(new MonstersVsGov.FactionPayload(2));
             this.onClose();
@@ -35,18 +35,21 @@ public class EntryScreen extends Screen {
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
-        // Draws the standard dark blurred background
+        // In 26.1.2, renderBackground requires these specific parameters
         this.renderBackground(graphics, mouseX, mouseY, delta);
         
-        // Draw centered title text
+        // Title Rendering
         graphics.drawCenteredString(this.font, this.title, this.width / 2, 40, 0xFFFFFF);
+        
+        // Decorative sub-text
+        graphics.drawCenteredString(this.font, Component.literal("Select a side to receive your starter gear"), this.width / 2, 60, 0xAAAAAA);
         
         super.render(graphics, mouseX, mouseY, delta);
     }
 
     @Override
     public boolean shouldCloseOnEsc() {
-        // Set to false if you want to FORCE players to pick a side
+        // Set to false: Players cannot exit this screen until they choose a faction
         return false;
     }
 }
