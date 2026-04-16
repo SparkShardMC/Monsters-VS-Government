@@ -1,0 +1,7 @@
+{
+  "item.monstersvsgov.decayed_dagger": "Decayed Dagger",
+  "item.monstersvsgov.repaired_dagger": "Repaired Dagger",
+  "item.monstersvsgov.spirit_blood": "Spirit Blood",
+  "item.monstersvsgov.repaired_dagger.tooltip": "§bInfused with spirit essence. Chance to blind enemies.",
+  "item.monstersvsgov.decayed_dagger.tooltip": "§2Corrosive. Chance to poison non-monsters."
+}
