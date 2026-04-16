@@ -13,7 +13,7 @@
     "G": { "item": "minecraft:gold_ingot" }
   },
   "result": {
-    "item": "monstersvsgov:repaired_dagger",
-    "count": 1
+    "count": 1,
+    "item": "monstersvsgov:repaired_dagger"
   }
 }
