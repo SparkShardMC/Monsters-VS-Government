@@ -15,7 +15,9 @@ public class ModItems {
 
     // 2. Decayed Dagger (Tier: Stone equivalent, but low durability)
     public static final Item DECAYED_DAGGER = registerItem("decayed_dagger", 
-        new SwordItem(Tiers.STONE, new Item.Properties().durability(100)));
+    new DecayedDaggerItem(Tiers.STONE, new Item.Properties()
+        .durability(100)
+        .attributes(DecayedDaggerItem.createAttributes())));
 
     // 3. Repaired Dagger (Tier: Iron equivalent + Blindness Ability)
     public static final Item REPAIRED_DAGGER = registerItem("repaired_dagger", 
