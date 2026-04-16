@@ -47,6 +47,6 @@ public class EntryScreen extends Screen {
     @Override
     public boolean shouldCloseOnEsc() {
         // Set to false if you want to FORCE players to pick a side
-        return true;
+        return false;
     }
 }
