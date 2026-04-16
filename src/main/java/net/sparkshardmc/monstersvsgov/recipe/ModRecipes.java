@@ -7,6 +7,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.sparkshardmc.monstersvsgov.MonstersVsGov;
 
 public class ModRecipes {
+    // Custom Serializer for the stack-size ritual
     public static final RecipeSerializer<DaggerRepairRecipe> DAGGER_REPAIR_SERIALIZER = new DaggerRepairRecipe.Serializer();
 
     public static void register() {
